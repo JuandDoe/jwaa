@@ -1,0 +1,3 @@
+A voice journal you can actually talk to. At the end of the day, you ramble into your microphone about whatever happened : work, annoyances, wins, nonsense. The program records you, transcribes what you said **locally on your machine** (no cloud, no cost, no one listening), saves it, and then an AI persona of your choosing responds: a sarcastic narrator, a grumpy old mentor, an overly enthusiastic sports commentator recapping your day like a match. Over time it becomes a searchable archive of your life that occasionally roasts you.
+
+WORK IN PROGRESS
