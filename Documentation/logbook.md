@@ -183,3 +183,73 @@ To https://github.com/JuandDoe/jwaa
 - Since I do lot typo I added LTEX Extension for VS Code, a Grammar/Spell Checker Using LanguageTool which will speed up the English correction process of both code and documentation
 
 - I added Markdown Preview Enhanced extension to check if I didn't have any broken Markdown syntax
+
+## Step 0.2: Set up of git pre commits & watchdogs
+
+- Before going any further into the chore project I would like to ad some watchdogs to avoid pushing mistakes on GitHub (Secrets, typos..etc), will read a bit about it
+
+- Found a gitignore generator for rust project : [text](https://www.git-tower.com/free-tools/gitignore/rust)
+- I will use their template for now. I didn't really found an article, blog or doc about what would be the prefect gitignore for rust so i make the choice that this company no better than me for now
+
+- [text](https://github.com/j178/prek)
+Prek seems very promising, a faster version of pre-commit framework, built in commons hook, no dependencies needed (single binary)
+
+- I install
+```bash
+cargo install --locked prek
+```
+
+- Added prek.toml at the root of project. This file will contain our hook
+
+- Let's allow hooks to run every time I commit, with prek’s Git shim integration
+```bash
+prek install
+```
+- I added some built I understood and found useful in hook in my prek.toml
+- Regarding the protection against secret leaks especially I wanted to firstly go for Gitleaks, but the author considers it feature complete and shifted recently to Betterleaks to build the future of secret scanning. As i'm in a new project I will go for Betterleaks
+
+- Found usage example : [
+](https://github.com/betterleaks/betterleaks/blob/main/.pre-commit-hooks.yaml)
+
+- I chose the Golang-based hook instead of the system or Docker variants because it allows prek to manage Betterleaks installation in an isolated environment. This avoids requiring contributors to manually install Betterleaks or maintain a local version, reducing onboarding friction when sharing the project.
+
+I pinned the rev field (syntax from pre-commit, used by prek also) to the latest release tag instead of relying on a floating tag such as latest, ensuring deterministic and reproducible hook execution across environments. I will dig into the config when it will need by the use of a secret
+
+
+- Let's check before commit
+
+```bash
+- prek run --all-files
+trim trailing whitespace.................................................Passed
+check for case conflicts.................................................Passed
+check illegal windows names..........................(no files to check)Skipped
+fix end of files.........................................................Failed
+- hook id: end-of-file-fixer
+- exit code: 1
+- files were modified by this hook
+
+  Fixing .gitignore
+  Fixing Documentation/logbook.md
+  Fixing readme.md
+fix utf-8 byte order marker..............................................Passed
+check json...........................................(no files to check)Skipped
+check toml...............................................................Passed
+check vcs permalinks.....................................................Passed
+check yaml...........................................(no files to check)Skipped
+check for broken symlinks............................(no files to check)Skipped
+detect private key.......................................................Passed
+Detect hardcoded secrets.................................................Passed
+ant@127:~/bullshit/jwaa$ prek run --all-files
+trim trailing whitespace.................................................Passed
+check for case conflicts.................................................Passed
+check illegal windows names..........................(no files to check)Skipped
+fix end of files.........................................................Passed
+fix utf-8 byte order marker..............................................Passed
+check json...........................................(no files to check)Skipped
+check toml...............................................................Passed
+check vcs permalinks.....................................................Passed
+check yaml...........................................(no files to check)Skipped
+check for broken symlinks............................(no files to check)Skipped
+detect private key.......................................................Passed
+Detect hardcoded secrets.................................................Passed
+```
