@@ -253,3 +253,35 @@ check for broken symlinks............................(no files to check)Skipped
 detect private key.......................................................Passed
 Detect hardcoded secrets.................................................Passed
 ```
+## Step 1 — The Recorder (make Rust hear you)
+
+- We will firstly go for fixed duration. I will follow advices : [`cpal`](https://crates.io/crates/cpal) crate for microphone capture and [`hound`](https://crates.io/crates/hound) to write the WAV file.
+
+```bash
+cargo add cpal
+cargo add hound
+```
+
+- Project build and run
+
+- I found a recording file example with cpal and Hound
+[text](https://github.com/RustAudio/cpal/blob/0ecb418b7b74da871984287e9f0c5a41900c8d52/examples/record_wav.rs)
+
+- I had firstly a fear here : when you have a problem to solve with a lib you go to examples and docs, but when its about 2 docs, and you don't see clearly how to split it down into distinct pieces I feel easily myself sinking. I ctrl+f hound here and found. Lucky. Claude explained that usually a low level library bring upper level lib in their examples as the low lib itself didn't have meaningful use case by itself most of the time or at least, if you want a nice overview of its ability you should include what upper lib leveraging include in your examples
+
+- Claude gave a meaningful example here when I asked how to proceed if lib A or Lib B doesn't give examples including each other :
+   When no obvious example links the two crates: GitHub code search with both names (cpal hound language:Rust)"
+
+   - I added needed crates and features needed by reading the toml file of the repo then replaced the example duration (3 seconds) to 60 seconds
+   - Software compile. I get a clear wav audio file, the recording stop automatically when file duration reach 60 seconds
+   - I can read the file and heard the record as needed
+
+
+```bash
+fix end of files.........................................................Failed
+- hook id: end-of-file-fixer
+- exit code: 1
+- files were modified by this hook
+```
+- Weird ! At least it had I thought. My idea was "Okay after first fail, an automatic modification/fix was applied. It was ! But I didn't see first that i had to re-stage the file in my IDE.
+- Commit & Push successfully now
