@@ -4,3 +4,45 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+anyhow = "1.0.104"
+clap = { version = ">=4.6, <5", features = ["derive"] }
+ringbuf = "0.4"
+cpal = "0.18.1"
+hound = "3.5.1"
+
+[target.'cfg(any(target_os = "linux", target_os = "dragonfly", target_os = "freebsd", target_os = "netbsd"))'.dependencies]
+alsa = "0.11"
+alsa-sys = { version = "0.4", optional = true }
+libc = "0.2"
+audio_thread_priority = { version = "0.35", optional = true, default-features = false }
+jack = { version = "0.13.5", optional = true }
+pulseaudio = { version = "0.3", optional = true }
+futures = { version = "0.3", optional = true }
+pipewire = { version = "0.10", optional = true, features = ["v0_3_53"] }
+
+
+[package.metadata.docs.rs]
+# The docs.rs build environment does not have all the dependencies for all features
+features = [
+    "asio",
+    "audioworklet",
+    "custom",
+    "jack",
+    "pulseaudio",
+    "realtime",
+    "realtime-dbus",
+    "wasm-bindgen",
+]
+rustdoc-args = ["--cfg", "docsrs"]
+targets = [
+    "x86_64-unknown-linux-gnu",
+    "x86_64-pc-windows-msvc",
+    "x86_64-apple-darwin",
+    "aarch64-apple-darwin",
+    "aarch64-apple-ios",
+    "wasm32-unknown-unknown",
+    "aarch64-linux-android",
+    "x86_64-unknown-freebsd",
+    "x86_64-unknown-netbsd",
+    "x86_64-unknown-dragonfly",
+]
