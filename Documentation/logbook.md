@@ -283,5 +283,33 @@ fix end of files.........................................................Failed
 - exit code: 1
 - files were modified by this hook
 ```
-- Weird ! At least it had I thought. My idea was "Okay after first fail, an automatic modification/fix was applied. It was ! But I didn't see first that i had to re-stage the file in my IDE.
+- Weird ! At least it had I thought. My idea was : Okay after first fail, an automatic modification/fix was applied. It was ! But I didn't see first that I had to re-stage the file in my IDE.
 - Commit & Push successfully now
+
+
+On another Computer I get a git error when pulling : 
+
+```bash
+> git pull --tags
+There is no tracking information for the current branch.
+Please specify which branch you want to merge with.
+See git-pull(1) for details.
+
+    git pull <remote> <branch>
+
+If you wish to set tracking information for this branch you can do so with:
+
+    git branch --set-upstream-to=origin/<branch> main
+
+```
+- I Found an article who looked promising : https://www.geeksforgeeks.org/git/how-to-fix-git-error-there-is-no-tracking-information-for-the-current-branch/
+
+```bash
+git branch
+* main
+agschwind@AOG25P004:~/jwaa$ git branch --set-upstream-to=origin/main
+branch 'main' set up to track 'origin/main'.
+```
+
+- WORKED
+- Explanation from article : error occurs when you run git pull, and Git doesn’t know which branch on the server it should pull from. Essentially, Git lacks the information regarding the remote branch that corresponds to the local branch you are currently on.
